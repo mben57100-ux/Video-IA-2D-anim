@@ -8,7 +8,7 @@ Mots-clés sous-titres : [J] jaune, [R] rouge, *italique* = réplique (jaune = G
 
 | Clip | Sous-titres | Visuel |
 |---|---|---|
-| 01 | Dans les villages du [Sahara]J algérien, les grands-mères apprennent une seule [règle]J aux enfants. | Grand-mère (foulard, robe kabyle/chaouie, tatouages berbères au menton), index levé, coucher de soleil orange sur les dunes et un ksar |
+| 01 | En [Algérie]J, les grands-mères apprennent une seule [règle]J aux enfants. | Grand-mère (foulard, robe kabyle/chaouie, tatouages berbères au menton), index levé, coucher de soleil orange sur les dunes et un ksar |
 | 02 | Si tu croises une femme seule dans les [dunes]J, la [nuit]R… tu lui dis « [salam]J » avant qu'elle parle. Parce que si elle parle la première… elle a le droit de te [manger]R. | Nuit, pleine lune sur les dunes, silhouette en abaya noire au sommet d'une dune ; gros plan bouche qui s'ouvre |
 | 03 | Elle s'appelle… la [Ghoula]R. | Avis de recherche : مطلوبة / RECHERCHÉE — LA GHOULA — الغولة — Signe : imite la voix de tes proches — ● Algérie — DANGER ■■■■■ |
 | 04 | Cet [été]J, tu es chez ta grand-mère, au [bled]J. Un soir, ta [chèvre]J s'échappe dans les dunes. Tu pars la chercher, avec une lampe. | Jour : maisons en terre ocre, portes bleues, palmiers, dunes au fond. Puis crépuscule, enfant avec une lampe torche dans les dunes |

@@ -4,7 +4,7 @@ Un fichier MP3 par clip, nommé comme le .txt (ex. `01_NARRATEUR.mp3`). Coller l
 
 | # | Voix | Texte |
 |---|---|---|
-| 01 | **NARRATEUR** | [calm, storytelling] Dans les villages du Sahara algérien, les grands-mères apprennent une seule règle aux enfants. |
+| 01 | **NARRATEUR** | [calm, storytelling] En Algérie, les grands-mères apprennent une seule règle aux enfants. |
 | 02 | **NARRATEUR** | [serious] Si tu croises une femme seule dans les dunes, la nuit... tu lui dis « salam » avant qu'elle parle. [short pause] Parce que si elle parle la première... [whispers] elle a le droit de te manger. |
 | 03 | **NARRATEUR** | [ominous] Elle s'appelle... la Ghoula. |
 | 04 | **NARRATEUR** | [warm, nostalgic] Cet été, tu es chez ta grand-mère, au bled. [short pause] [lighter] Un soir, ta chèvre s'échappe dans les dunes. Tu pars la chercher, avec une lampe. |
