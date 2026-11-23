@@ -14,7 +14,7 @@ Scripts complets et timings : `references/scripts-reference.md`. Planches d'imag
 |---|---|
 | Format | 1080×1920, 30 fps, H.264 + AAC 44.1 kHz stéréo |
 | Durée contenu | 68–72 s de narration + ~2 s de jumpscare figé (total ≈ 72–74 s) |
-| Débit de parole | rapide et régulier : ~170–190 mots/min (≈ 200–220 mots au total) |
+| Débit de parole | rapide et régulier : ~210–230 mots/min (≈ 250–270 mots au total) |
 | Plans | un nouveau plan toutes les 2–4 s (≈ 25–30 plans), presque 1 plan par phrase |
 | Loudness | voix devant, musique en drone continu sous la voix, master ≈ -14 LUFS |
 | **Pas d'outro**, pas de watermark. À la place : bouton CTA « 💬 Commente "FAIS LA LÉGENDE DE MON PAYS" » (voir §5bis) |
@@ -111,7 +111,7 @@ Le cœur du format : **une règle énoncée au début, que l'histoire met à l'�
 ## 7. Pipeline de production
 
 1. **Recherche** de la légende (origine, nom local, attributs visuels, règle traditionnelle).
-2. **Script** selon le gabarit §2, ~210 mots, relu à voix haute ; marquer les mots-clés J/R et les répliques.
+2. **Script** selon le gabarit §2, ~250–270 mots, relu à voix haute ; marquer les mots-clés J/R et les répliques.
 3. **Découpage plan par plan** : tableau (phrase → plan → décor → personnages → mouvement caméra → SFX).
 4. **Voix** (TTS) → timestamps mot par mot (alignement forcé) → durées des plans calées sur la voix.
 5. **Assets** : décors et personnages en SVG (calques séparés pour parallaxe et animation).

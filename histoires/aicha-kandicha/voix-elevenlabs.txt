@@ -6,19 +6,19 @@ Parce que si ce sont des sabots... c'est qu'elle t'a déjà choisi. Elle s'appel
 
 [pause]
 
-Cet été, tu es chez ta grand-mère, au bled, au bord d'un oued.
+Cet été, tu es chez ta grand-mère, au bord d'un oued.
 
-Un soir, tu rentres seul de chez ton cousin, par le chemin des roseaux. Derrière toi, une voix très douce t'appelle par ton prénom. Puis il fait froid, d'un coup.
+Un soir, tu rentres seul, par le chemin des roseaux. Derrière toi, une voix très douce t'appelle par ton prénom. Puis il fait froid, d'un coup.
 
-Tu te retournes. Une femme magnifique, en djellaba blanche, te sourit. Ses yeux brillent comme ceux d'un chat.
+Tu te retournes. Une femme magnifique, en djellaba blanche, te sourit.
 
 [whispers] Viens, mon cœur. Ta grand-mère m'a envoyée te chercher.
 
-Tu baisses les yeux, comme on te l'a appris. Sous la djellaba... deux sabots de chèvre.
+Tu baisses les yeux. Sous la djellaba... deux sabots de chèvre.
 
 Tu cours jusqu'à la maison, sans te retourner. Derrière toi, des sabots claquent sur les pierres.
 
-Ta grand-mère devient toute pâle. Elle verse du sel sur le seuil, et fait brûler de l'encens dans chaque pièce.
+Ta grand-mère devient toute pâle. Elle verse du sel sur le seuil, et fait brûler de l'encens.
 
 [whispers] Si elle t'appelle, tu ne réponds pas. Même si c'est ma voix.
 
@@ -32,7 +32,7 @@ Ta grand-mère dort dans le lit, à côté de toi.
 
 Tu ne réponds pas. Alors la voix se met à pleurer. Puis à rire.
 
-Le matin, le sel est tout noir. Et autour de la maison, il y a des traces de sabots. Elles font trois fois le tour.
+Le matin, le sel est tout noir. Et autour de la maison, il y a des traces de sabots.
 
 [pause]
 
