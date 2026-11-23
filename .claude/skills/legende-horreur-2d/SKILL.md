@@ -100,7 +100,7 @@ Le cœur du format : **une règle énoncée au début, que l'histoire met à l'�
 
 ## 6. Audio
 
-**La voix n'est PAS générée ici** : l'utilisateur la génère lui-même sur ElevenLabs. Livrer un **script voix à copier-coller** (Eleven v3, balises `[whispers]`, `[softly]`, `[pause]`, points de suspension pour les silences), puis caler l'animation + sous-titres sur le MP3 qu'il renvoie.
+**La voix n'est PAS générée ici** : l'utilisateur la génère lui-même sur ElevenLabs (Eleven v3). Livrer **un fichier texte par clip**, numérotés dans l'ordre et nommés par voix (`01_NARRATEUR.txt`, `06_ENFANT.txt`, `08_GHOULA.txt`…) + `00_LISTE_DES_CLIPS.md` récapitulatif. Un changement de personnage = un nouveau clip/une nouvelle voix. Mettre des balises d'émotion v3 adaptées à l'image (`[tense]`, `[whispers]`, `[scared]`, `[gasps]`, `[laughs creepily]`, `[sniffs]`, `[sighs]`, `[short pause]`…). L'utilisateur renvoie un MP3 par clip (même nom) ; on les assemble, on aligne les mots, puis on cale animation + sous-titres dessus.
 
 
 - **Voix** : un seul narrateur, français, voix masculine posée, grave, conteur, débit rapide mais articulé, peu d'emphase théâtrale. Le monstre et les proches sont dits par le même narrateur (léger changement de ton : chuchoté, plus aigu pour « c'est maman »).
