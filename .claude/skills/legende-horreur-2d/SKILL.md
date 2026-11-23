@@ -119,3 +119,15 @@ Le cœur du format : **une règle énoncée au début, que l'histoire met à l'�
 7. **Sous-titres karaoké** générés depuis les timestamps.
 8. **Mix** voix + drone + SFX, normalisation -14 LUFS, mux ffmpeg.
 9. **Contrôle** : planche de vignettes toutes les 2 s + vérification de la synchro sous-titres.
+
+## 8. Outils du repo (pipeline réel)
+
+Exemple complet : `histoires/ghoula-sahara/`.
+
+1. MP3 de l'utilisateur → `histoires/<slug>/audio/voix/` (un fichier par clip ou par groupe de clips, ex. `01-05_NARRATEUR.mp3`).
+2. `clips.py` : liste des fichiers, texte balisé (`[mot]J` jaune, `[mot]R` rouge), style (`narr`, `dlg_y`, `dlg_p`), tempo, pauses, effets voix (écho Ghoula, filtre « derrière la porte »).
+3. `python3 build_audio.py` → `build/voice.wav` + `build/timeline.json` (pauses resserrées, alignement mot par mot heuristique : régions de parole ↔ ponctuation).
+4. `scenes.js` : décors/personnages SVG + liste des plans ancrés sur les mots (`wordT(clip, mot)`), secousses, flashs, fenêtre du bouton CTA.
+5. `cd engine && npm i` (une fois) puis `node render.js ../histoires/<slug> preview 1,5,12` (vignettes) / `node render.js ../histoires/<slug> video 4` (rendu complet 1080×1920 30 fps via Playwright).
+6. `python3 build_mix.py` → `build/mix.wav` (drone, luth hijaz Karplus-Strong, bruitages synthétisés, ducking).
+7. Mux : `ffmpeg -i build/video_noaudio.mp4 -i build/mix.wav -af loudnorm=I=-14:TP=-1.5 -c:v copy -c:a aac -b:a 192k -shortest final.mp4`.
