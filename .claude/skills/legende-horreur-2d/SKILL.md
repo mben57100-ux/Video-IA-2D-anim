@@ -1,6 +1,6 @@
 ---
 name: legende-horreur-2d
-description: Créer un Short TikTok (~70 s, 9:16) de légende urbaine / folklore d'horreur en animation 2D vectorielle, narré à la 2e personne ("tu"), avec règle des anciens, avis de recherche du monstre, rituel de protection, saut temporel, twist final et jumpscare. Utiliser quand l'utilisateur fournit une histoire/légende à adapter dans ce style.
+description: Créer un Short TikTok (~70-90 s, 9:16) de légende urbaine / folklore d'horreur en animation 2D vectorielle, narré à la 2e personne ("tu") — règle des anciens, avis de recherche du monstre, rituel, saut temporel, twist, jumpscare, bouton "Commente FAIS LA LÉGENDE DE MON PAYS". Écrit l'histoire + les textes ElevenLabs par voix, puis monte la vidéo (SVG + Playwright + ffmpeg) sur les MP3 fournis par l'utilisateur. Utiliser pour toute demande de vidéo/légende/histoire d'horreur dans ce style.
 ---
 
 # Légende d'horreur 2D — format TikTok
@@ -100,13 +100,30 @@ Le cœur du format : **une règle énoncée au début, que l'histoire met à l'�
 
 ## 6. Audio
 
-**La voix n'est PAS générée ici** : l'utilisateur la génère lui-même sur ElevenLabs (Eleven v3). Livrer **un fichier texte par clip**, numérotés dans l'ordre et nommés par voix (`01_NARRATEUR.txt`, `06_ENFANT.txt`, `08_GHOULA.txt`…) + `00_LISTE_DES_CLIPS.md` récapitulatif. Un changement de personnage = un nouveau clip/une nouvelle voix. Mettre des balises d'émotion v3 adaptées à l'image (`[tense]`, `[whispers]`, `[scared]`, `[gasps]`, `[laughs creepily]`, `[sniffs]`, `[sighs]`, `[short pause]`…). L'utilisateur renvoie un MP3 par clip (même nom) ; on les assemble, on aligne les mots, puis on cale animation + sous-titres dessus.
+**La voix n'est JAMAIS générée ici** : l'utilisateur la génère sur ElevenLabs (Eleven v3) et renvoie les MP3.
 
+**Livrable voix** (dans le chat ET dans `histoires/<slug>/voix/`) :
+- Un bloc par clip, **chaque bloc dans son propre bloc de code** pour copier-coller, titré `### 06 · 👦 ENFANT (change de voix)`.
+- Un changement de personnage = un nouveau clip. Les clips sont numérotés dans l'ordre du récit.
+- Balises d'émotion v3 adaptées à l'image : `[calm, storytelling]`, `[serious]`, `[ominous]`, `[tense, slower]`, `[whispers]`, `[nervously]`, `[scared, breathless]`, `[gasps]`, `[menacing, raspy]`, `[laughs creepily]`, `[sniffs]`, `[sighs]`, `[softly]`, `[short pause]`. Si une balise est lue à voix haute : la remplacer par « … ».
+- Fichiers texte `NN_VOIX.txt` + `00_LISTE_DES_CLIPS.md`, et un casting conseillé (narrateur homme grave conteur, enfant ~10 ans, monstre rauque/soufflé, ancien chaud mais ferme…).
+- Hook : formuler simplement le pays (« En Algérie, les grands-mères… »), pas de région alambiquée.
+- L'utilisateur peut regrouper plusieurs clips d'une même voix dans un MP3 (`01-05_NARRATEUR.mp3`) : `clips.py` gère les groupes.
 
-- **Voix** : un seul narrateur, français, voix masculine posée, grave, conteur, débit rapide mais articulé, peu d'emphase théâtrale. Le monstre et les proches sont dits par le même narrateur (léger changement de ton : chuchoté, plus aigu pour « c'est maman »).
-- Les onomatopées (« Po… po… », « Ay… ») peuvent être traitées avec reverb/pitch down.
-- **Musique** : drone d'ambiance sombre continu sous toute la vidéo (nappes graves, cordes tenues), plus clair/léger sur le hook et « cet été ».
-- **SFX** systématiques synchronisés à l'image : éperons, sabots, galop lointain, vent, coups à la porte, tapotements sur la vitre, eau, pleurs lointains, grillons la nuit, horloge. Silence quasi total juste avant le twist, puis **hit grave + stinger** sur le jumpscare.
+**Traitement** : pauses internes raccourcies (≤ 0,30 s), narrateur accéléré ×1,15 (atempo, hauteur conservée), dialogues ×1,05 ; écho sur le monstre, passe-bas « derrière la porte » sur une voix imitée.
+Attention : les voix ElevenLabs sont lentes — un texte de ~290 mots donne ~92 s même resserré. **Viser 230–260 mots** pour tenir ~75 s.
+
+**Musique/SFX (synthétisés, aucun fichier externe)** : drone grave continu (plus discret sur hook/jour), vent filtré coupé net quand « le vent s'arrête », quelques notes de luth Karplus-Strong dans une gamme du pays (hijaz pour le Maghreb), ducking sous la voix. Bruitages calés sur les mots : onde/whoosh, hit grave sur les mots rouges forts, tampon + frappe + bips sur l'affiche, pas de course, battements de cœur, coups à la porte (×3 synchronisés aux secousses), griffures, reniflements, moteur qui cale, riser avant le twist, hit + cri sur le jumpscare. Soft-limit (tanh) puis loudnorm -14 LUFS.
+
+## 6bis. Pièges visuels déjà rencontrés (à vérifier sur chaque planche)
+
+- **Index levé** : poing fermé bien visible (phalanges + pouce replié), index sur le BORD du poing — sinon ça ressemble à un doigt d'honneur.
+- **Tatouages berbères** (menton/front) : trait vertical + chevrons + points ; jamais une forme de croix.
+- Monstre : toujours une **calotte de cheveux** sur le haut du visage, sinon il a l'air chauve / crâne d'œuf. Yeux pas trop gros (sinon « hibou »).
+- T-shirt d'une couleur franche (rouge) : un jaune devient couleur peau sous le filtre nuit.
+- Pas de sous-titres sur l'avis de recherche (texte de l'affiche déjà à l'écran).
+- Bouton CTA : en haut, jamais pendant le twist/jumpscare.
+- Toujours faire une **planche de vignettes** (preview) avant le rendu complet et la regarder.
 
 ## 7. Pipeline de production
 
@@ -120,7 +137,21 @@ Le cœur du format : **une règle énoncée au début, que l'histoire met à l'�
 8. **Mix** voix + drone + SFX, normalisation -14 LUFS, mux ffmpeg.
 9. **Contrôle** : planche de vignettes toutes les 2 s + vérification de la synchro sous-titres.
 
-## 8. Outils du repo (pipeline réel)
+## 8. Workflow avec l'utilisateur
+
+1. Proposer une légende (ou prendre la sienne) → script + découpage visuel (`script.md`) + textes ElevenLabs par clip.
+2. L'utilisateur envoie les MP3 → copier dans `histoires/<slug>/audio/voix/` avec des noms propres.
+3. Adapter `clips.py`, `scenes.js` (décors, personnages, plans), `build_mix.py` (ancres SFX) à partir de l'exemple.
+4. Preview → corriger → rendu complet → envoyer le MP4 (SendUserFile) + le pousser sur la branche.
+5. Si l'utilisateur veut « les mêmes voix, autres plans/personnages » : ne toucher qu'à `scenes.js` (+ SFX), garder `clips.py`/audio.
+
+## 9. Fichiers embarqués dans ce skill
+
+- `scripts/engine/` : `lib.js` (caméra, sous-titres karaoké, CTA, flashs, secousses, grain, vignette), `render.js` (Playwright → ffmpeg, preview/vidéo multi-workers), `make_video.sh` (tout en une commande), `package.json` (polices Roboto Condensed + Noto Naskh Arabic via @fontsource).
+- `scripts/exemple-ghoula/` : exemple complet (La Ghoula, Algérie) — `clips.py`, `build_audio.py`, `build_mix.py`, `scenes.js` (grand-mère, garçon/homme, Ghoula de dos/visage/yeux, désert nuit/coucher de soleil/jour, ksar, palmiers, chèvre, porte bleue, horloge, couteau, lampe, voiture, affiche RECHERCHÉE en arabe), `script.md`, textes ElevenLabs.
+- Si le repo n'a pas `engine/`, copier `scripts/engine/` vers `engine/` ; pour une nouvelle histoire, copier `scripts/exemple-ghoula/` vers `histoires/<slug>/`.
+
+## 10. Outils du repo (pipeline réel)
 
 Exemple complet : `histoires/ghoula-sahara/`.
 
@@ -130,4 +161,5 @@ Exemple complet : `histoires/ghoula-sahara/`.
 4. `scenes.js` : décors/personnages SVG + liste des plans ancrés sur les mots (`wordT(clip, mot)`), secousses, flashs, fenêtre du bouton CTA.
 5. `cd engine && npm i` (une fois) puis `node render.js ../histoires/<slug> preview 1,5,12` (vignettes) / `node render.js ../histoires/<slug> video 4` (rendu complet 1080×1920 30 fps via Playwright).
 6. `python3 build_mix.py` → `build/mix.wav` (drone, luth hijaz Karplus-Strong, bruitages synthétisés, ducking).
-7. Mux : `ffmpeg -i build/video_noaudio.mp4 -i build/mix.wav -af loudnorm=I=-14:TP=-1.5 -c:v copy -c:a aac -b:a 192k -shortest final.mp4`.
+7. Ou tout d'un coup : `engine/make_video.sh histoires/<slug>`.
+8. Mux manuel : `ffmpeg -i build/video_noaudio.mp4 -i build/mix.wav -af loudnorm=I=-14:TP=-1.5 -c:v copy -c:a aac -b:a 192k -shortest final.mp4`.
