@@ -17,7 +17,7 @@ Scripts complets et timings : `references/scripts-reference.md`. Planches d'imag
 | Débit de parole | rapide et régulier : ~170–190 mots/min (≈ 200–220 mots au total) |
 | Plans | un nouveau plan toutes les 2–4 s (≈ 25–30 plans), presque 1 plan par phrase |
 | Loudness | voix devant, musique en drone continu sous la voix, master ≈ -14 LUFS |
-| Pas de watermark TikTok ni d'outro TikTok (ajoutés par la plateforme à l'export) |
+| **Pas d'outro**, pas de watermark. À la place : bouton CTA « 💬 Commente "FAIS LA LÉGENDE DE MON PAYS" » (voir §5bis) |
 
 ## 2. Structure narrative (gabarit obligatoire)
 
@@ -92,7 +92,16 @@ Le cœur du format : **une règle énoncée au début, que l'histoire met à l'�
 - **Répliques** de personnages en *italique* : jaune italique (monstre/ancien), rose italique `#F59BB5` (voix imitant un proche, ex. « MON CHÉRI, »).
 - Petit pop-in (scale 90→100 % en 80 ms) à chaque nouveau carton.
 
+## 5bis. Bouton CTA (remplace l'outro)
+
+- Pilule arrondie (fond noir 85 %, contour blanc, icône bulle de commentaire), placée en haut de l'écran (y ≈ 300 px) pour ne pas gêner les sous-titres.
+- Texte : `COMMENTE « FAIS LA LÉGENDE DE MON PAYS » 🌍` (mot-clé en jaune).
+- Apparition slide + pop, légère pulsation, ~5 s, **dans la dernière partie mais à un moment peu important** (lendemain / saut temporel), **jamais** pendant le twist ou le jumpscare.
+
 ## 6. Audio
+
+**La voix n'est PAS générée ici** : l'utilisateur la génère lui-même sur ElevenLabs. Livrer un **script voix à copier-coller** (Eleven v3, balises `[whispers]`, `[softly]`, `[pause]`, points de suspension pour les silences), puis caler l'animation + sous-titres sur le MP3 qu'il renvoie.
+
 
 - **Voix** : un seul narrateur, français, voix masculine posée, grave, conteur, débit rapide mais articulé, peu d'emphase théâtrale. Le monstre et les proches sont dits par le même narrateur (léger changement de ton : chuchoté, plus aigu pour « c'est maman »).
 - Les onomatopées (« Po… po… », « Ay… ») peuvent être traitées avec reverb/pitch down.
