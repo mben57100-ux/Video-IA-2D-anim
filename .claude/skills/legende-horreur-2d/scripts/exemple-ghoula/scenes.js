@@ -101,14 +101,16 @@ function mouthFor(expr, y = -62, open = 0) {
 
 // Garçon / homme. Origine = base du cou.
 function boy(o = {}) {
-  const skin = o.skin || '#c48a5c', hair = '#24170f', shirt = o.shirt || '#d9443a', shorts = o.adult ? '#2b2f3a' : '#35507e';
+  const skin = o.skin || '#c48a5c', hair = '#24170f', shirt = o.shirt || '#d9443a', shorts = o.adult || o.tall ? (o.pants || '#2b2f3a') : '#35507e';
   const ph = o.run ?? null;
-  const aL = ph !== null ? Math.sin(ph) * 40 : (o.armL || 0), aR = ph !== null ? -Math.sin(ph) * 40 : (o.armR || 0);
+  // course « Ghoula » (±40°) conservée pour l'enfant ; pour un ado/adulte grand (tall) les bras restent vers l'extérieur
+  const aL = ph !== null ? (o.tall ? 18 + Math.sin(ph) * 22 : Math.sin(ph) * 40) : (o.armL || 0);
+  const aR = ph !== null ? (o.tall ? -18 + Math.sin(ph) * 22 : -Math.sin(ph) * 40) : (o.armR || 0);
   const lL = ph !== null ? Math.sin(ph) * 28 : 0, lR = -lL;
-  const legLen = o.adult ? 190 : 150, torso = o.adult ? 230 : 190;
+  const legLen = o.tall ? 320 : (o.adult ? 190 : 150), torso = o.tall ? 300 : (o.adult ? 230 : 190);
   let body = `
-   <g transform="rotate(${lL},-35,${torso + 70})"><rect x="-62" y="${torso + 60}" width="36" height="${legLen}" rx="17" fill="${o.adult ? '#2b2f3a' : skin}"/><ellipse cx="-44" cy="${torso + 60 + legLen}" rx="28" ry="12" fill="#3a2a22"/></g>
-   <g transform="rotate(${lR},35,${torso + 70})"><rect x="26" y="${torso + 60}" width="36" height="${legLen}" rx="17" fill="${o.adult ? '#2b2f3a' : skin}"/><ellipse cx="44" cy="${torso + 60 + legLen}" rx="28" ry="12" fill="#3a2a22"/></g>
+   <g transform="rotate(${lL},-35,${torso + 70})"><rect x="-62" y="${torso + 60}" width="36" height="${legLen}" rx="17" fill="${o.adult || o.tall ? (o.pants || '#2b2f3a') : skin}"/><ellipse cx="-44" cy="${torso + 60 + legLen}" rx="28" ry="12" fill="#3a2a22"/></g>
+   <g transform="rotate(${lR},35,${torso + 70})"><rect x="26" y="${torso + 60}" width="36" height="${legLen}" rx="17" fill="${o.adult || o.tall ? (o.pants || '#2b2f3a') : skin}"/><ellipse cx="44" cy="${torso + 60 + legLen}" rx="28" ry="12" fill="#3a2a22"/></g>
    <path d="M-82,${torso - 5} L82,${torso - 5} L86,${torso + 85} L6,${torso + 85} L0,${torso + 55} L-6,${torso + 85} L-86,${torso + 85}Z" fill="${shorts}"/>
    <rect x="-18" y="-34" width="36" height="44" fill="${skin}"/>
    <path d="M-78,0 Q-88,70 -82,${torso} L82,${torso} Q88,70 78,0 Q0,-22 -78,0Z" fill="${shirt}"/>
@@ -135,7 +137,7 @@ function boy(o = {}) {
       ${o.pale ? `<circle cx="0" cy="${hy}" r="100" fill="#9fb6d8" opacity=".3"/>` : ''}`;
   }
   return `<g transform="translate(${o.x || 0},${o.y || 0}) scale(${o.s || 1}) rotate(${o.rot || 0})">
-    <g filter="url(#stk)"><g ${o.tint ? `filter="url(#${o.tint})"` : ''}>${o.bust ? '' : body}${o.bust ? `<path d="M-78,0 Q-88,70 -90,420 L90,420 Q88,70 78,0 Q0,-22 -78,0Z" fill="${shirt}"/><rect x="-18" y="-34" width="36" height="44" fill="${skin}"/>` : ''}${head}</g></g></g>`;
+    <g filter="url(#stk)"><g ${o.tint ? `filter="url(#${o.tint})"` : ''}>${o.bust ? '' : body}${o.bust ? `<path d="M-78,0 Q-88,70 -90,420 L90,420 Q88,70 78,0 Q0,-22 -78,0Z" fill="${shirt}"/><rect x="-18" y="-34" width="36" height="44" fill="${skin}"/>` : ''}${o.tall ? `<g transform="translate(0,8) scale(.78)">${head}</g>` : head}</g></g></g>`;
 }
 
 // Grand-mère. Origine = base du cou.

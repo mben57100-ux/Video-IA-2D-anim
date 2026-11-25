@@ -161,7 +161,7 @@ function makeFrame(t, story) {
   let inner = shot.draw(t, lt, p, shot);
   inner = camera(inner, shot.cam || { s: [1, 1.06] }, p);
   const [sx, sy] = shakeOffset(t, story.shakes);
-  let out = `<defs>${BASE_DEFS}${story.defs || ''}</defs><rect width="${W}" height="${H}" fill="#000"/>`;
+  let out = `<defs>${BASE_DEFS}${RIM_DEFS}${story.defs || ''}</defs><rect width="${W}" height="${H}" fill="#000"/>`;
   out += `<g transform="translate(${sx.toFixed(1)},${sy.toFixed(1)})">${inner}</g>`;
   out += (shot.noVig ? '' : vignette(shot.vig ?? 1)) + grain(t);
   if (shot.post) out += shot.post(t, lt, p);
@@ -169,7 +169,83 @@ function makeFrame(t, story) {
   if (shot.fadeIn) { const o = 1 - prog(lt, 0, shot.fadeIn); if (o > 0) out += `<rect width="${W}" height="${H}" fill="#000" opacity="${o}"/>`; }
   if (shot.fadeOut) { const o = prog(t, shot.t1 - shot.fadeOut, shot.t1); if (o > 0) out += `<rect width="${W}" height="${H}" fill="#000" opacity="${o}"/>`; }
   out += flash(t, story.flashes);
+  if (shot.fg) out += shot.fg(t, lt, p);  // avant-plan non soumis à la caméra (ex. silhouette floue)
   if (!shot.noSubs) out += subtitles(t, story.chunks);
   if (story.cta) out += cta(t, story.cta[0], story.cta[1]);
   return out;
+}
+
+// =================== Effets ajoutés (analyse Teke Teke / Nahual) ===================
+// Contours colorés selon la lumière (remplace le contour blanc en scène sombre) : filter="url(#rimRed)" etc.
+const RIM_DEFS = ['Red:#ff3b30', 'Orange:#ff9a3c', 'Cyan:#5fe1ff', 'Moon:#bcd0ff'].map(s => {
+  const [n, c] = s.split(':');
+  return `<filter id="rim${n}" x="-30%" y="-30%" width="160%" height="160%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="d"/><feFlood flood-color="${c}"/><feComposite in2="d" operator="in" result="o"/>
+  <feGaussianBlur in="o" stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+}).join('') + `<filter id="fgBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter>
+<filter id="toBlack"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter>
+<linearGradient id="rainG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe3ff" stop-opacity="0"/><stop offset="1" stop-color="#cfe3ff" stop-opacity=".55"/></linearGradient>`;
+
+// Carton noir avec un seul mot (ex. « DEUX. » en rouge) — à utiliser comme plan entier, avec noSubs:true
+function blackCard(t, lt, word, color = '#E5452F') {
+  const sc = .9 + .1 * E.back(prog(lt, 0, .18));
+  return `${`<rect width="${W}" height="${H}" fill="#000"/>`}<g transform="translate(540,1000) scale(${sc})">
+    <text text-anchor="middle" font-family="RC" font-weight="900" font-size="130" fill="${color}" stroke="#000" stroke-width="8" paint-order="stroke">${word}</text></g>`;
+}
+// Pluie (traits obliques) ; density 0..1
+function rain(t, density = 1, angle = 12) {
+  const r = rng(4242); let s = '';
+  const n = Math.round(160 * density);
+  for (let i = 0; i < n; i++) {
+    const x0 = r() * 1400 - 160, sp = 1800 + r() * 900, L = 40 + r() * 50, ph = r();
+    const y = ((t * sp + ph * 2200) % 2200) - 140, x = x0 + y * Math.tan(angle * Math.PI / 180);
+    s += `<line x1="${x.toFixed(0)}" y1="${y.toFixed(0)}" x2="${(x + L * Math.tan(angle * Math.PI / 180)).toFixed(0)}" y2="${(y + L).toFixed(0)}" stroke="url(#rainG)" stroke-width="3"/>`;
+  }
+  return s;
+}
+// Gouttes sur une vitre (pour plan derrière une fenêtre)
+function windowDrops(t, x, y, w, h, n = 40) {
+  const r = rng(77); let s = '';
+  for (let i = 0; i < n; i++) {
+    const dx = r() * w, slide = (r() < .3) ? ((t * 40 * (1 + r())) % h) : r() * h;
+    s += `<ellipse cx="${(x + dx).toFixed(0)}" cy="${(y + slide).toFixed(0)}" rx="${(3 + r() * 4).toFixed(1)}" ry="${(5 + r() * 6).toFixed(1)}" fill="#e6f0ff" opacity=".35"/>`;
+  }
+  return s;
+}
+// Neige
+function snow(t, density = 1) {
+  const r = rng(99); let s = '';
+  for (let i = 0; i < Math.round(120 * density); i++) {
+    const x0 = r() * 1200 - 60, sp = 60 + r() * 120, ph = r() * 2000, rad = 2 + r() * 5;
+    const y = (t * sp + ph) % 2000 - 40, x = x0 + Math.sin(t * .8 + i) * 30;
+    s += `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${rad.toFixed(1)}" fill="#fff" opacity="${(.4 + r() * .5).toFixed(2)}"/>`;
+  }
+  return s;
+}
+// Néon / lampe qui grésille : renvoie une opacité 0..1 (à multiplier sur la lumière)
+function flicker(t, amount = 1, seed = 1) {
+  const k = Math.floor(t * 18 + seed * 13);
+  const r = rng(k * 2654435761 >>> 0)();
+  return r < .18 * amount ? .15 : (r < .3 * amount ? .6 : 1);
+}
+// Cône de lumière d'une lampe (plafonnier, réverbère)
+function lightCone(x, y, w, h, op = 1, color = '#fff6d8') {
+  return `<path d="M${x - 18},${y} L${x + 18},${y} L${x + w / 2},${y + h} L${x - w / 2},${y + h}Z" fill="${color}" opacity="${(.16 * op).toFixed(3)}" filter="url(#b20)"/>
+    <circle cx="${x}" cy="${y}" r="26" fill="${color}" opacity="${op}" filter="url(#glowS)"/>`;
+}
+// Ombre portée sur un mur (silhouette d'une forme SVG, décalée/étirée) — l'ombre révèle la vraie nature
+function wallShadow(shapeSvg, dx = -60, sx = 1.25, skew = -18, op = .45) {
+  return `<g opacity="${op}" transform="translate(${dx},0) skewX(${skew}) scale(${sx},1)" filter="url(#b3)"><g filter="url(#toBlack)">${shapeSvg}</g></g>`;
+}
+// Bande de police (preuves / faits divers)
+function policeTape(y, rot = -6, t = 0) {
+  let s = ''; for (let i = -2; i < 14; i++) s += `<rect x="${i * 120 + (t * 20 % 120)}" y="-22" width="60" height="44" fill="#111"/>`;
+  return `<g transform="translate(-100,${y}) rotate(${rot})"><rect x="0" y="-22" width="1400" height="44" fill="#f2c230"/>${s}</g>`;
+}
+// Écran de télé « infos du soir »
+function tvNews(x, y, s, inner, t = 0) {
+  return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-300" y="-190" width="600" height="380" rx="24" fill="#16171c"/>
+    <rect x="-275" y="-168" width="550" height="310" fill="#0d1a2e"/><g>${inner || ''}</g>
+    <rect x="-275" y="100" width="550" height="42" fill="#c0392b"/><text x="-260" y="130" font-family="RC" font-weight="900" font-size="28" fill="#fff">INFOS · DERNIÈRE MINUTE</text>
+    <rect x="-275" y="-168" width="550" height="310" fill="#fff" opacity="${(.03 + .03 * Math.sin(t * 40)).toFixed(3)}"/></g>`;
 }
