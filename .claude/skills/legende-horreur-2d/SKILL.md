@@ -5,6 +5,8 @@ description: Créer un Short TikTok (~70-90 s, 9:16) de légende urbaine / folkl
 
 # Légende d'horreur 2D — format TikTok (skill fusionné)
 
+> Format duel « sauveur vs cauchemar » : voir le skill **`roue-des-legendes`** (prioritaire pour ce type de vidéo). Ce skill-ci reste la référence pour le style des personnages, l'écriture d'horreur, les voix ElevenLabs et les pièges visuels.
+
 Analysé sur **5 vidéos de référence** du même créateur : Charro Negro, Hachishakusama, La Llorona (lot 1) + Teke Teke, Nahual (lot 2).
 Scripts et timings : `references/scripts-reference.md` (lot 1), `references/scripts-reference-2.md` (lot 2). Planches : `references/frames/`.
 Exemple produit de bout en bout : La Ghoula (Algérie) → `scripts/exemple-ghoula/`.

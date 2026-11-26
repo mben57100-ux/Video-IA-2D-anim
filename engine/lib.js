@@ -170,7 +170,8 @@ function makeFrame(t, story) {
   if (shot.fadeOut) { const o = prog(t, shot.t1 - shot.fadeOut, shot.t1); if (o > 0) out += `<rect width="${W}" height="${H}" fill="#000" opacity="${o}"/>`; }
   out += flash(t, story.flashes);
   if (shot.fg) out += shot.fg(t, lt, p);  // avant-plan non soumis à la caméra (ex. silhouette floue)
-  if (!shot.noSubs) out += subtitles(t, story.chunks);
+  if (story.overlay && !shot.noOverlay) out += story.overlay(t, shot);
+  if (!shot.noSubs) out += (story.subFn || subtitles)(t, story.chunks, shot);
   if (story.cta) out += cta(t, story.cta[0], story.cta[1]);
   return out;
 }
