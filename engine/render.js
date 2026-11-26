@@ -16,10 +16,15 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:NU;font-weight:800;src:url(file://${fontDir}/nunito/files/nunito-latin-800-normal.woff2)}
 @font-face{font-family:PF;font-weight:900;font-style:normal;src:url(file://${fontDir}/playfair-display/files/playfair-display-latin-900-normal.woff2)}
 @font-face{font-family:PF;font-weight:700;font-style:italic;src:url(file://${fontDir}/playfair-display/files/playfair-display-latin-700-italic.woff2)}
+@font-face{font-family:MS;font-weight:900;font-style:normal;src:url(file://${fontDir}/montserrat/files/montserrat-latin-900-normal.woff2)}
+@font-face{font-family:MS;font-weight:800;font-style:normal;src:url(file://${fontDir}/montserrat/files/montserrat-latin-800-normal.woff2)}
+@font-face{font-family:MS;font-weight:800;font-style:italic;src:url(file://${fontDir}/montserrat/files/montserrat-latin-800-italic.woff2)}
+@font-face{font-family:AN;src:url(file://${fontDir}/anton/files/anton-latin-400-normal.woff2)}
+@font-face{font-family:SE;src:url(file://${fontDir}/special-elite/files/special-elite-latin-400-normal.woff2)}
 @font-face{font-family:AR;font-weight:700;src:url(file://${fontDir}/noto-naskh-arabic/files/noto-naskh-arabic-arabic-700-normal.woff2)}
 html,body{margin:0;background:#000;overflow:hidden} svg{display:block}
 </style></head><body><svg id="root" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
-<div style="font-family:RC;font-weight:800;position:absolute;opacity:0">a<i>a</i></div><div style="font-family:AR;position:absolute;opacity:0">مطلوبة</div><div style="font-family:NU;font-weight:900;position:absolute;opacity:0">a</div><div style="font-family:PF;font-weight:900;position:absolute;opacity:0">a<i style="font-weight:700">a</i></div>
+<div style="font-family:RC;font-weight:800;position:absolute;opacity:0">a<i>a</i></div><div style="font-family:AR;position:absolute;opacity:0">مطلوبة</div><div style="font-family:MS;font-weight:900;position:absolute;opacity:0">a<b style="font-weight:800">a</b><i style="font-weight:800">a</i></div><div style="font-family:AN;position:absolute;opacity:0">a</div><div style="font-family:SE;position:absolute;opacity:0">a</div><div style="font-family:NU;font-weight:900;position:absolute;opacity:0">a</div><div style="font-family:PF;font-weight:900;position:absolute;opacity:0">a<i style="font-weight:700">a</i></div>
 </body></html>`;
 
 async function openPage(browser) {
@@ -28,7 +33,7 @@ async function openPage(browser) {
   await page.goto('file://' + tmp);
   const tl = JSON.parse(fs.readFileSync(path.join(storyDir, 'build', 'timeline.json')));
   await page.addScriptTag({ path: path.join(__dirname, 'lib.js') });
-  for (const m of ['persos.js', 'roue.js']) if (fs.existsSync(path.join(__dirname, m))) await page.addScriptTag({ path: path.join(__dirname, m) });
+  for (const m of ['persos.js', 'roue.js', 'realiste.js', 'screamers.js']) if (fs.existsSync(path.join(__dirname, m))) await page.addScriptTag({ path: path.join(__dirname, m) });
   await page.addScriptTag({ path: path.join(storyDir, 'scenes.js') });
   await page.evaluate(tl => { window.STORY = buildStory(tl); }, tl);
   await page.evaluate(() => document.fonts.ready);
