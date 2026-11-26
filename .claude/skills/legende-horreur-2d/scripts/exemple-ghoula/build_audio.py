@@ -56,7 +56,7 @@ def compress(x, regions, max_pause, pad=0.04):
 def parse_markup(s):
     words = []
     for tok in s.split():
-        m = re.match(r"^(.*?)\[(.+?)\]([JR])(.*)$", tok)
+        m = re.match(r"^(.*?)\[(.+?)\]([JRB])(.*)$", tok)
         color = None
         if m:
             tok = m.group(1) + m.group(2) + m.group(4); color = m.group(3)
@@ -66,7 +66,7 @@ def parse_markup(s):
 
 def parse_markup_full(s):
     out = []
-    for m in re.finditer(r"\[([^\]]+)\]([JR])|(\S+)", s):
+    for m in re.finditer(r"\[([^\]]+)\]([JRB])|(\S+)", s):
         if m.group(1):
             parts = m.group(1).split()
             for p in parts: out.append({"w": p, "color": m.group(2)})

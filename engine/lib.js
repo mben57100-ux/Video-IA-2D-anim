@@ -87,8 +87,8 @@ function buildChunks(words) {
   });
   return chunks;
 }
-const COL = { J: '#F7B733', R: '#E5452F', Y: '#F7C948', P: '#F59BB5' };
-function subtitles(t, chunks) {
+const COL = { J: '#F7B733', R: '#E5452F', B: '#4AA8FF', Y: '#F7C948', P: '#F59BB5' };
+function subtitles(t, chunks, shot) {
   const c = chunks.find(c => t >= c.t0 && t < c.t1);
   if (!c) return '';
   const pop = E.back(prog(t, c.t0, c.t0 + .12));
@@ -103,7 +103,7 @@ function subtitles(t, chunks) {
     spans += `<tspan fill="${col}" fill-opacity="${spoken ? 1 : .42}">${w.w.toUpperCase().replace(/&/g, '&amp;')} </tspan>`;
   }
   const italic = c.words[0].style !== 'narr';
-  return `<g transform="translate(540,1290) scale(${sc})" filter="url(#subsh)">
+  return `<g transform="translate(540,${(shot && shot.subY) || 1290}) scale(${sc})" filter="url(#subsh)">
     <text x="0" y="0" text-anchor="middle" font-family="RC" font-weight="800" font-size="76" ${italic ? 'font-style="italic"' : ''}
       stroke="#000" stroke-width="10" stroke-linejoin="round" paint-order="stroke" letter-spacing="0.5">${spans.trim()}</text></g>`;
 }

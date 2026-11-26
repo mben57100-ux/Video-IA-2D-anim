@@ -138,7 +138,7 @@ function boy(o = {}) {
       ${o.pale ? `<circle cx="0" cy="${hy}" r="100" fill="#9fb6d8" opacity=".3"/>` : ''}`;
   }
   return `<g transform="translate(${o.x || 0},${o.y || 0}) scale(${o.s || 1}) rotate(${o.rot || 0})">
-    <g filter="url(#stk)"><g ${o.tint ? `filter="url(#${o.tint})"` : ''}>${o.bust ? '' : body}${o.bust ? `<path d="M-78,0 Q-88,70 -90,420 L90,420 Q88,70 78,0 Q0,-22 -78,0Z" fill="${shirt}"/><rect x="-18" y="-34" width="36" height="44" fill="${skin}"/>` : ''}${o.tall ? `<g transform="translate(0,8) scale(.78)">${head}</g>` : head}</g></g></g>`;
+    <g filter="url(#stk)"><g ${o.tint ? `filter="url(#${o.tint})"` : ''}>${o.bust ? '' : body}${o.bust ? `<path d="M-78,0 Q-88,70 -90,420 L90,420 Q88,70 78,0 Q0,-22 -78,0Z" fill="${shirt}"/><rect x="-18" y="-34" width="36" height="44" fill="${skin}"/>` : ''}${o.scarf ? `<path d="M-66,-30 Q0,-6 66,-30 L70,6 Q0,30 -70,6Z" fill="${o.scarf}"/><rect x="24" y="0" width="34" height="${o.bust ? 120 : 90}" rx="12" fill="${o.scarf}"/>` : ''}${o.tall ? `<g transform="translate(0,8) scale(.78)">${head}</g>` : head}</g></g></g>`;
 }
 
 // Grand-mère. Origine = base du cou.
@@ -379,7 +379,7 @@ function llorona(o = {}, t = 0) {
      ${sc > .1 ? `<ellipse cx="0" cy="-62" rx="${18 + sc * 16}" ry="${20 + sc * 40}" fill="#0a0a0c"/>` : `<path d="M-20,-62 Q0,-74 20,-62" stroke="#0a0a0c" stroke-width="6" fill="none" stroke-linecap="round"/>`}
   </g>`;
   return `<g transform="translate(${o.x || 0},${(o.y || 0)}) scale(${o.s || 1})"><g transform="translate(${sway},0)" filter="url(#${o.noStk ? 'glowS' : 'stk'})">
-    <path d="M-150,-260 Q-190,100 -250,640 L250,640 Q190,100 150,-260 Q0,-310 -150,-260Z" fill="#f4f3ee" opacity=".55"/>
+    <path d="M-112,-190 C-126,-320 126,-320 112,-190 Q190,100 250,640 L-250,640 Q-190,100 -112,-190Z" fill="#f4f3ee" opacity=".5"/>
     <path d="M-80,0 Q-150,200 -230,620 ${hem} L230,620 Q150,200 80,0 Q0,-20 -80,0Z" fill="#f7f6f1"/>
     <path d="M-60,40 L-120,600 M0,40 L0,610 M60,40 L120,600" stroke="#dcdad2" stroke-width="5"/>
     ${arm(-1)}${arm(1)}
@@ -450,4 +450,22 @@ function snowForest(t, seed = 5, yb = 1250) {
   for (let row = 0; row < 3; row++) for (let i = 0; i < 8; i++) g += pine(-120 + i * 170 + r() * 60, yb - 200 + row * 110, .7 + row * .25 + r() * .15, ['#0a1219', '#0d1720', '#122030'][row]);
   g += `<path d="M-200,${yb + 80} Q540,${yb + 20} 1280,${yb + 80} L1280,2200 L-200,2200Z" fill="#cdd8e6"/><path d="M-200,${yb + 80} Q540,${yb + 20} 1280,${yb + 80}" stroke="#fff" stroke-width="6" fill="none" opacity=".6"/>`;
   return g;
+}
+
+// Chalet enneigé aux fenêtres allumées + guirlande
+function cabin(x, y, s, t = 0) {
+  const lights = ['#ff4a4a', '#ffd34d', '#4ae0ff', '#6aff6a'];
+  return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-200" y="-220" width="400" height="220" fill="#7a4a2a"/>
+    ${[0, 1, 2, 3, 4].map(i => `<line x1="-200" y1="${-200 + i * 44}" x2="200" y2="${-200 + i * 44}" stroke="#5e3820" stroke-width="5"/>`).join('')}
+    <rect x="-150" y="-170" width="90" height="80" fill="#ffc45a" filter="url(#glowS)"/><rect x="60" y="-170" width="90" height="80" fill="#ffc45a" filter="url(#glowS)"/>
+    <path d="M-150,-130 h90 M-105,-170 v80 M60,-130 h90 M105,-170 v80" stroke="#5e3820" stroke-width="6"/>
+    <rect x="-35" y="-120" width="70" height="120" fill="#4a2a14"/><circle cx="0" cy="-80" r="22" fill="none" stroke="#2e7a3a" stroke-width="9"/>
+    <path d="M-250,-200 L0,-360 L250,-200Z" fill="#e8eef6"/><path d="M-250,-200 Q0,-180 250,-200" stroke="#cfd9e6" stroke-width="14" fill="none"/>
+    ${Array.from({ length: 11 }, (_, i) => `<circle cx="${-230 + i * 46}" cy="${-196 + Math.abs(5 - i) * 2}" r="7" fill="${lights[(i + Math.floor(t * 3)) % 4]}" filter="url(#glowS)"/>`).join('')}</g>`;
+}
+// Trou dans la glace (eau noire étoilée)
+function iceHole(x, y, s, t = 0) {
+  let st = ''; const r = rng(12); for (let i = 0; i < 20; i++) st += `<circle cx="${(r() - .5) * 360}" cy="${(r() - .5) * 90}" r="${1 + r() * 2}" fill="#9fb8e0" opacity="${.3 + .3 * Math.sin(t * 2 + i)}"/>`;
+  return `<g transform="translate(${x},${y}) scale(${s})"><ellipse rx="230" ry="70" fill="#e9f1fb"/><ellipse rx="210" ry="58" fill="#05070f"/>${st}
+    <ellipse rx="210" ry="58" fill="none" stroke="#9fb8d8" stroke-width="6"/></g>`;
 }

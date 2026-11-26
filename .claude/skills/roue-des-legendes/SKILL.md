@@ -1,89 +1,85 @@
 ---
 name: roue-des-legendes
-description: Format TikTok « ROUE DES LÉGENDES N°X » (~90-100 s, 9:16) — deux roues tirent au sort un SAUVEUR (bleu) et un CAUCHEMAR (rouge) parmi les légendes du monde, écran VS « Vas-tu survivre ? », puis histoire de survie à la 2e personne où le cauchemar attaque, le sauveur intervient (combat surnaturel) et un twist final rend le sauveur ambigu. Fiches « niveau de menace », posters vintage « la légende », bandeau d'épisode permanent, sous-titres phrase. Personnages dans le style sticker des skills précédents. Écrit l'épisode + les textes ElevenLabs par voix, puis monte la vidéo sur les MP3 de l'utilisateur. À utiliser pour toute demande de « roue des légendes », duel de légendes, sauveur vs cauchemar.
+description: Format TikTok « ROUE DES LÉGENDES » (~70 s, 9:16) — deux roues de ~25 légendes du monde tirent au sort un SAUVEUR (bleu) et un CAUCHEMAR (rouge), VS en diagonale « Vas-tu survivre ? », puis histoire de survie à la 2e personne : le cauchemar attaque, le sauveur surgit, combat court, et le lore du sauveur révèle qu'il est le vrai danger (« Il n'est pas venu te sauver. Il est venu te prendre. »). Sous-titres karaoké MAJUSCULES bleu/rouge/jaune, fin sac qui se referme + yeux dans le noir. Personnages dans le style sticker des skills précédents. Écrit l'épisode + les textes ElevenLabs par voix, puis monte la vidéo sur les MP3 de l'utilisateur. À utiliser pour toute demande de roue des légendes, duel de légendes, sauveur vs cauchemar.
 ---
 
-# ROUE DES LÉGENDES — format duel (skill principal pour ce type de vidéo)
+# ROUE DES LÉGENDES — format duel
 
-Référence analysée : épisode N°1 *La Llorona contre Krampus* (99 s) → `references/script-llorona-vs-krampus.md`, images `references/frames/`.
-**Graphismes des personnages : on garde notre style « sticker »** (têtes rondes, contour blanc, cf. skill `legende-horreur-2d`) — PAS le style de la référence (bonhommes à capuche). Tout le reste (structure, intro, fiches, posters, rythme, sous-titres, bandeau) suit la référence.
-Moteur partagé : `engine/` (`lib.js` + `persos.js` + `roue.js` + `sfx.py`). Démo : `histoires/_demo-roue/scenes.js`.
+**Modèle par défaut = V2** (vidéo « Krampus contre la Llorona », @what.if.lab…, 70 s), jugée parfaite par l'utilisateur : `references/script-v2-krampus-vs-llorona.md`, images `references/frames-v2/`. La reproduire **exactement** (structure, rythme, intro, VS, sous-titres, fin).
+Variante V1 (épisode « La Llorona contre Krampus » de @nerepondspas, 99 s : bandeau d'épisode, fiches de menace, posters vintage, sous-titres en minuscules) → `references/script-llorona-vs-krampus.md`, `references/frames/`. Seulement si l'utilisateur la demande.
+**Personnages : notre style sticker** (cf. skill `legende-horreur-2d`), pas ceux des références.
+Moteur : `engine/lib.js` + `engine/persos.js` + `engine/roue.js` + `engine/sfx.py`. Démo V2 : `histoires/_demo-roue-v2/scenes.js` (copie : `scripts/demo-roue-v2-scenes.js`).
 
-## 1. Specs
+## 1. Specs (V2)
 
 | Paramètre | Valeur |
 |---|---|
 | Format | 1080×1920, 30 fps, -14 LUFS |
-| Durée | 90–100 s : intro roues ~8 s + histoire ~85 s + regard final ~2 s |
-| Voix | ~300–330 mots (avec voix ElevenLabs lentes : viser ~280 mots, narrateur ×1,15) |
-| Plans | 1 plan / 2–3 s, beaucoup de gros plans détail |
-| Série | Numéroter : « ROUE DES LÉGENDES · N°1, N°2… » (garder un registre des épisodes dans `histoires/roue-XX-*/`) |
-| Fin | Pas d'outro. Bouton CTA « Commente » (§7) |
+| Durée | **~70 s** : intro roues + VS ≈ 9 s, histoire ≈ 59 s, écran noir final ≈ 2 s |
+| Voix | **~190–200 mots** (dense, rapide ; avec ElevenLabs : narrateur ×1,15, pauses ≤ 0,3 s) |
+| Plans | 1 plan / 1,5–3 s ; nombreux plans détail |
+| Fin | Pas d'outro. Bouton CTA (§7) |
 
-## 2. Structure d'un épisode
+## 2. Structure d'un épisode (V2)
 
-| # | Bloc | Temps | Contenu |
-|---|---|---|---|
-| 1 | **ROUE BLEUE** | 0–3 s | Écran coupé bleu (haut) / rouge (bas), bandes de cartes qui défilent (cartes numérotées = niveau de menace /10). La bleue s'arrête. Voix + légende : « La roue **bleue** a choisi ton **sauveur**. » |
-| 2 | **ROUE ROUGE** | 3–6 s | « La roue **rouge** a choisi ton **cauchemar**. » |
-| 3 | **DUEL** | 6–7,5 s | « [Sauveur] contre [Cauchemar]. » |
-| 4 | **VS** | 7,5–8,5 s | Les deux cartes face à face, « Vas-tu **survivre** ? » |
-| 5 | **MISE EN PLACE** | 8–17 s | Heure précise en horloge (« 2h19 du matin. »), toi + un être fragile (petite sœur, petit frère, bébé, grand-mère…), lieu isolé lié à la légende du cauchemar (route enneigée, désert, forêt), météo qui empire |
-| 6 | **PANNE / ISOLEMENT** | 16–20 s | « Et puis… le moteur s'arrête. Les phares s'éteignent. **Silence.** » |
-| 7 | **APPROCHE DU CAUCHEMAR** | 20–28 s | D'abord un son (chaînes, pas, pleurs), puis **révélation par morceaux** en phrases nominales : « Une immense silhouette à cornes. Des sabots de bouc. Une longue langue rouge. Et sur son dos, un grand sac. » |
-| 8 | **FICHE CAUCHEMAR + POSTER** | 28–35 s | « [Nom]. » (fiche rouge, menace qui monte → EXTRÊME) + « Dans [région], on dit qu'il… » (poster vintage « la légende — [CE QU'IL FAIT] ») + conséquence (« et qu'on ne les revoit jamais. ») |
-| 9 | **MENACE CIBLÉE** | 35–37 s | Le cauchemar désigne l'être fragile (« Il pointe ta sœur du doigt… ») |
-| 10 | **FUITE** | 37–44 s | « Tu attrapes sa main, et tu cours dans [lieu]. » + difficulté physique (« La neige aux genoux. ») + le son du cauchemar qui se rapproche |
-| 11 | **APPARITION DU SAUVEUR** | 44–54 s | « Et puis, tu entends autre chose. » Signe sensoriel du sauveur (pleurs, chant, odeur…) + sa réplique signature en langue d'origine + description (visage caché) |
-| 12 | **FICHE SAUVEUR + POSTER** | 54–60 s | Fiche bleue, menace basse, étiquette « **ALLIÉ… ?** » (le doute est planté) + poster « la légende — [CE QU'ELLE FAIT] » |
-| 13 | **CLIMAX DE MENACE** | 60–66 s | L'être fragile tremble ; le cauchemar casse tout, tend la main vers lui |
-| 14 | **COMBAT** | 66–84 s | « Mais d'un coup, [sauveur] [action]. » Pouvoir spectaculaire lié à SA légende (rivière qui explose, bras fantômes, feu, sable…) ; le cauchemar se débat, rugit ; escalade « et encore… et encore… jusqu'à ce que… » ; il disparaît |
-| 15 | **ACCALMIE** | 84–87 s | « Silence. Juste [la neige]. Tu as survécu. » |
-| 16 | **TWIST** | 87–96 s | « Mais quand tu te retournes pour la remercier… » le sauveur prend/garde l'être fragile ou révèle sa vraie règle. Réplique finale glaçante en italique (« Je ne sauve que les enfants. »). Fin sur son visage, regard caméra, figé ~2 s |
+| # | Bloc | Temps | Texte type | Image |
+|---|---|---|---|---|
+| 1 | ROUE BLEUE | 0–2,8 s | « La roue **bleue** a choisi ton **sauveur**. » | Écran coupé bleu/rouge, 2 bandes de ~25 cartes teintées qui défilent ; la bleue s'arrête, carte élue en couleurs, « 01 – NOM » |
+| 2 | ROUE ROUGE | 2,8–5,8 s | « La roue **rouge** a choisi ton **cauchemar**. » | La rouge s'arrête |
+| 3 | DUEL | 5,8–8 s | « [Sauveur]… contre [cauchemar]. » | Transition vers le **VS diagonal** (flash + glitch RGB) |
+| 4 | QUESTION | 8–9,4 s | « Vas-tu **survivre** ? » | VS tenu |
+| 5 | MISE EN PLACE | ~4 s | Moment + transgression : « C'est le soir de Noël. Tu sors en cachette jusqu'à la rivière gelée. » | Lieu chaleureux (chalet) puis lieu dangereux |
+| 6 | CAUCHEMAR (son puis vue) | ~7 s | « Puis tu entends quelqu'un pleurer. Une femme. En robe blanche. » + sa réplique en langue d'origine | Apparition à distance, puis gros plan |
+| 7 | DESCRIPTION en 4 phrases courtes | ~6 s | « Ses pieds ne touchent pas la neige. Son visage est pâle. Ses yeux sont vides. Et ses larmes sont noires. » | 1 plan détail par phrase |
+| 8 | NOM + LORE | ~6 s | « [Nom]. La légende dit qu'elle… et que maintenant, elle… » | Plan large d'ambiance (pas de fiche) |
+| 9 | ATTAQUE | ~5 s | « Elle t'attrape le bras. Sa main est mouillée. Glacée. Elle te tire vers l'eau. » | Main sur le bras, enfant tiré |
+| 10 | ARRIVÉE DU SAUVEUR | ~10 s | « Et là. » + 2 sons (« Des cloches. Des chaînes qui traînent sur la glace. ») + « Quelque chose d'énorme sort du noir. » + 3 détails nominaux + « [Nom]. » | Objets sonores en gros plan, silhouette, révélation par morceaux |
+| 11 | COMBAT court | ~4 s | « Il la frappe avec ses chaînes. Elle hurle et disparaît dans [lieu]. » | 2–3 plans, secousse + flash |
+| 12 | ACCALMIE + doute | ~4 s | « **Silence.** Tu es sauvé. Mais [sauveur] ne part pas. » | Lieu vide, le sauveur reste |
+| 13 | LORE DU SAUVEUR = piège | ~5 s | « Dans [région], on dit que [sauveur] ne vient que pour un seul type d'enfant… les méchants. » | Silhouette au-dessus du village, gros plan visage |
+| 14 | TWIST | ~6 s | Geste (« Il ouvre son sac. ») + réplique « Tu as été très méchant cette année. » + **antithèse finale** : « Il n'est pas venu te sauver. Il est venu te **prendre**. » | Gros plan enfant terrifié ; `sackClose` ; écran noir `blackEyes` + dernier mot rouge |
 
-**Choix du duel** : le cauchemar et le sauveur viennent de pays différents ; le sauveur doit avoir une raison *dans sa propre légende* de protéger la victime (la Llorona → les enfants), et cette même raison crée le twist. Le lieu vient de la légende du cauchemar.
+**Choix du duel** : le sauveur doit avoir une raison *dans sa propre légende* d'être dangereux pour toi (Krampus punit les enfants méchants ; tu es sorti en cachette). Le cauchemar est le danger « évident ». Lieu et moment tirés des deux légendes (Noël + rivière gelée).
 
 ## 3. Écriture
 
-- 2e personne, présent ; phrases très courtes ; **phrases nominales** pour révéler un monstre (« Des sabots de bouc. Une longue langue rouge. »).
-- Ponctuation de suspense : « Et puis… », « Mais d'un coup, », « et encore… et encore… jusqu'à ce que… ».
-- Un seul « Silence. » isolé après la panne, un autre après la victoire.
-- Chiffres/heures précis (« 2h19 du matin »).
-- Réplique du sauveur dans sa langue (« Ay… mis hijos. »), dernière réplique en français, courte.
-- Personnages par leur rôle (ta petite sœur), jamais de prénom.
+- 2e personne, présent ; phrases de 2–8 mots ; fragments nominaux (« Une femme. En robe blanche. »).
+- Rythme ternaire/quaternaire de description (« Ses pieds… Son visage… Ses yeux… Et ses larmes… »).
+- Charnières fixes : « Puis tu entends… », « Et là. », « Quelque chose d'énorme sort du noir. », « Silence. », « Mais [X] ne part pas. », « Dans [région], on dit que… ».
+- Répliques entre guillemets « » (affichées dans les sous-titres) ; une réplique en langue d'origine pour le cauchemar.
+- Fin en antithèse, dernier mot = verbe-choc en rouge.
 
-## 4. Habillage (composants `engine/roue.js`)
+## 4. Habillage (V2) — `engine/roue.js`
 
 | Élément | Fonction | Notes |
 |---|---|---|
-| Intro roues | `roueIntro(t, cfg)` + `roueCaption(parts)` | `cfg = {n, roster, sauveur, cauchemar, tTop:[t0,dur], tBot:[t0,dur], tVs}`. `roster` = 4–8 légendes `{name, lvl, draw:s=>svg}` (le même monstre peut être dessiné en couleur différente). Légendes MAJUSCULES, mots « bleue/sauveur » en bleu, « rouge/cauchemar/survivre » en rouge. Plan avec `noSubs, noOverlay, noVig`. |
-| Bandeau d'épisode | `roueHeader(n, sauveur, cauchemar)` via `story.overlay` | Pastille blanche « ROUE DES LÉGENDES · N°X » + puces « SAUVEUR · X » (bleu) / « CAUCHEMAR · Y » (rouge), **visible pendant toute l'histoire** (sauf fiches/posters : `noOverlay`). |
-| Horloge | `clockBadge('02:19', 420)` | En haut, sous le bandeau, sur le plan d'ouverture. |
-| Fiche légende | `legendProfile(lt, {side, name, flag, region, lvl, label, draw})` | `side:'cauchemar'` → rouge, « EXTRÊME » ; `'sauveur'` → bleu, « ALLIÉ… ? ». Drapeaux : `flag('DZ'|'MA'|'TN'|'MX'|'AT'|'JP'|'FR'|'BR'|'PH')`. Plan avec `{noOverlay:true, subY:1730}`. |
-| Poster vintage | `vintagePoster(lt, {kicker, title, silhouette, scenery})` | Papier beige, « — la légende — », titre serif = ce que fait la créature (« IL EMPORTE LES ENFANTS »), silhouette noircie du monstre + décor `village|forest|river`. `{noOverlay:true, subY:1730}`. |
-| Sous-titres | `buildChunksRoue(words)` + `subtitlesRoue` (`story.subFn`) | **Minuscules / casse normale**, Nunito Black, blanc contour noir épais, 1–3 mots, y ≈ 1450, pop-in, **pas de couleurs** ; répliques en italique. |
-| VFX combat | `ghostArms`, `waterColumn`, `iceRing`, `fogBands`, `snow`, `rain`, `flicker`, `lightCone`, `blackCard`, `wallShadow` | + secousses/flashs de `lib.js`. |
+| Roster | `rosterV2({Nom: s=>svg})` | ~28 légendes du monde (`LEGENDES`, silhouettes `miniPortrait`) ; passer les **vrais personnages** pour le sauveur et le cauchemar (et ceux qu'on a déjà dessinés). |
+| Intro roues | `roueIntroV2(t, {roster, sauveur, cauchemar, tTop:[t0,dur], tBot:[t0,dur], tVs})` | Cartes à sommet arrondi, teintées bleu/rouge sauf l'élue, flou de vitesse, ralentissement, « NN – NOM ». Plan `{noVig:true, subY:1760}` : les sous-titres karaoké de la voix servent de légende. Caler `tTop`/`tBot`/`tVs` sur les mots « sauveur », « cauchemar », « contre ». |
+| VS diagonal | (inclus) `vsDiagonal` | Biais rouge/sombre, cartes ×1,9, noms en couleur, flash + `rgbSplit`. |
+| Sous-titres | `buildChunks` + `subtitles` de `lib.js` (karaoké MAJUSCULES) | `subY: 1400` sur les plans d'histoire. Balises voix : `[mot]B` bleu (`#4AA8FF`) = sauveur / calme / froid (BLEUE, SAUVEUR, BLANCHE, GLACE, SILENCE, nom du sauveur) ; `[mot]R` rouge = danger (ROUGE, CAUCHEMAR, PLEURER, VIDES, NOIRES, TIRE, MÉCHANTS, PRENDRE, nom du cauchemar) ; `[mot]J` jaune = objets / repères (NOËL, CLOCHES, FRAPPE, SAC). |
+| Fin | `sackClose(p)` puis `blackEyes(t)` | Le dernier carton (« IL EST VENU TE PRENDRE. ») s'affiche sur le noir. |
+| Décors / effets | `snowForest`, `cabin`, `iceHole`, `fogBands`, `snow`, `rain`, `flicker`, `lightCone`, `ghostArms`, `waterColumn`, `iceRing`, `wallShadow`, `blackCard` | + secousses/flashs de `lib.js`. |
+| V1 seulement | `roueIntro`, `roueHeader`, `legendProfile`, `vintagePoster`, `clockBadge`, `subtitlesRoue` | Variante @nerepondspas. |
 
-## 5. Personnages et décors (style des skills précédents)
+## 5. Personnages (style sticker)
 
-`engine/persos.js` : `boy` (enfant ; `tall:true` = ado/adulte ; `run:phase` = **course conservée** de la Ghoula), `girl` (petite sœur), `grandma`, `teddy`, `ghoulaBack/ghoulaFace/eyesInDark`, `llorona({face, cry, arms, scream})`, `krampus({roar, eyes, sack})`, décors `snowForest`, `pine`, `dunesNight`, `ksar`, `palm`, `door`, `clock`, `car`, `lamp`, `moon`, `stars`, `flag`.
-Pour une nouvelle légende : dessiner sa fonction dans `persos.js` (même grammaire : origine = base du cou, contour `#stk`, une variante « visage révélé », une variante « attaque »), et l'ajouter au roster.
-Règles visuelles : héros en couleur franche (hoodie bleu), être fragile en rose ; cauchemar sombre avec yeux lumineux ; sauveur clair/pâle ; plans détail (sabots, langue, chaînes, mains) pour la révélation ; contre-plongée sur le cauchemar ; le dernier plan est le visage du sauveur qui se tourne vers la caméra.
+`engine/persos.js` : `boy` (`scarf`, `shirt`, `run` = **course conservée**, `tall`, `bust`, `expr`), `girl`, `grandma`, `teddy`, `llorona`, `krampus`, `ghoulaBack/ghoulaFace/eyesInDark`, décors (`snowForest`, `pine`, `cabin`, `iceHole`, `dunesNight`, `ksar`, `palm`, `door`, `clock`, `car`, `lamp`, `moon`, `stars`, `flag`).
+Pour une nouvelle légende : écrire sa fonction (origine = base du cou, contour `#stk`, variantes « visage caché / révélé / attaque »), l'ajouter au `special` de `rosterV2`. Héros enfant en couleurs franches (doudoune bleue, écharpe rouge).
 
 ## 6. Audio
 
-- **Voix** : l'utilisateur la génère sur ElevenLabs (v3). Livrer un bloc de code par clip, numérotés, `### NN · 🎙️ NARRATEUR` / `👹 KRAMPUS (change de voix)` / `👻 LA LLORONA (change de voix)`…, avec balises d'émotion (`[dramatic, announcer]` pour l'intro roue, `[tense, slower]`, `[whispers]`, `[scared]`, `[menacing]`, `[wailing]`, `[short pause]`). L'intro (« La roue bleue a choisi… ») est un clip séparé, ton « présentateur ».
-- **Traitement** : `build_audio.py` (comme la Ghoula).
-- **Mix** (`engine/sfx.py`) : `wheel_ticks()` synchronisé aux roues (clic par carte + ding), `hit` sur VS, `trailer_pulse` sous l'intro, `drone` + `wind` sous l'histoire, `engine_stop`, silence réel sur « Silence. », `chains`/`bells`/`roar` pour le cauchemar, `wail`/`water_burst`/`whoosh` pour le combat, `riser` avant le twist, coupure du son d'ambiance sur la dernière réplique. `master()` fait ducking + limiteur.
+- **Voix** : l'utilisateur la génère sur ElevenLabs (v3). Un bloc de code par clip, numérotés, `### NN · 🎙️ NARRATEUR` / `### NN · 👻 LA LLORONA (change de voix)` / `### NN · 👹 KRAMPUS (change de voix)`. Intro = clip séparé `[dramatic, announcer]`. Balises : `[tense, slower]`, `[whispers]`, `[wailing]`, `[menacing, deep]`, `[scared]`, `[short pause]`. Dans `clips.py`, baliser `[mot]B/R/J` pour les couleurs.
+- **Traitement** : `build_audio.py` (modèle Ghoula, balise B prise en charge).
+- **Mix** (`engine/sfx.py`) : `trailer_pulse` + `wheel_ticks()` (clic par carte + ding) sur l'intro, `hit` + `whoosh` sur le VS, puis `drone` + `wind`, `bells`/`chains` à l'arrivée du sauveur, `wail` du cauchemar, `hit`/`roar` au combat, vrai silence sur « Silence. », `riser` avant le twist, `hit` grave sur « prendre », sac (whoosh grave) sur `sackClose`. `master()`.
 
 ## 7. Bouton CTA
 
-Même pilule que `legende-horreur-2d` (`cta(t,t0,t1)` de `lib.js`), en haut, ~5 s pendant l'accalmie (« Silence. Juste la neige. »), jamais pendant le twist. Texte par défaut : « COMMENTE « FAIS LA LÉGENDE DE MON PAYS » » ; variante possible pour ce format : « COMMENTE TON DUEL : SAUVEUR VS CAUCHEMAR ».
+`cta(t,t0,t1)` de `lib.js`, en haut, ~4 s pendant l'accalmie (« Silence. Tu es sauvé. »), jamais pendant le twist. Texte : « COMMENTE « FAIS LA LÉGENDE DE MON PAYS » » (variante : « COMMENTE TON DUEL »).
 
 ## 8. Workflow
 
-1. Choisir le duel (ou celui de l'utilisateur), écrire `histoires/roue-NN-<slug>/script.md` (tableau bloc / texte / image) + clips voix.
+1. Choisir le duel (ou celui de l'utilisateur) → `histoires/roue-NN-<slug>/script.md` (tableau bloc / texte balisé / image) + clips voix (~190–200 mots).
 2. L'utilisateur renvoie les MP3 → `audio/voix/`.
-3. Copier `scripts/exemple-ghoula/{clips.py,build_audio.py}` du skill `legende-horreur-2d` ; `scenes.js` à partir de `histoires/_demo-roue/scenes.js` ; `build_mix.py` avec `engine/sfx.py`.
-4. Preview (`node engine/render.js histoires/<slug> preview …`) → planche → corriger → `engine/make_video.sh histoires/<slug>` → SendUserFile + push.
-5. Vérifier : intro lisible, bandeau jamais coupé, sous-titres sous les fiches, pièges du skill `legende-horreur-2d` §8 (index levé, cheveux du monstre, couleurs…).
+3. `clips.py` + `build_audio.py` (modèle Ghoula), `scenes.js` à partir de `histoires/_demo-roue-v2/scenes.js`, `build_mix.py` avec `engine/sfx.py`.
+4. Preview → planche → corriger → `engine/make_video.sh histoires/<slug>` → SendUserFile + push.
+5. Contrôles : roues lisibles et élus corrects, VS lisible, sous-titres jamais sur un visage important, pièges du skill `legende-horreur-2d` §8.
